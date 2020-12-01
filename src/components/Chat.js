@@ -5,18 +5,21 @@ import socket from '../socket/socket';
 const Chat = () => {
     const [message, setMessage ] = useState('');
     const [messages, setMessages ] = useState(['start message', 'second message', 'third message']);
+    const [note, setNote ] = useState(['first note','second note']);
 
     useEffect(() => {
         socket.on('connect', (data) => {
             console.log('You are connected to the web socket right now ')
-        })
-    })
+        }); 
+        socket.on('message', (data) => {
+            setMessages([...messages, data.data]);
+        });
+    },[]);
 
     const logger = (event) => {
         event.preventDefault();
-        socket.emit('message', {data: message})
-        setMessages([...messages, message]);
-        setMessage('')
+        socket.emit('message', {data: message});
+        setMessage('');
     }
     
     return(
