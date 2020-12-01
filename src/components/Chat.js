@@ -4,6 +4,7 @@ import socket from '../socket/socket';
 
 const Chat = () => {
     const [message, setMessage ] = useState('');
+    const [messages, setMessages ] = useState(['start message', 'second message', 'third message']);
 
     useEffect(() => {
         socket.on('connect', (data) => {
@@ -14,7 +15,7 @@ const Chat = () => {
     const logger = (event) => {
         event.preventDefault();
         socket.emit('message', {data: message})
-        console.log(message)
+        setMessages([...messages, message]);
         setMessage('')
     }
     
@@ -24,11 +25,13 @@ const Chat = () => {
                 <h2>Chats</h2>
             </div>
             <div className="chat_messages">
-                <p>This is where the chats are</p>
-                <p>This is where the chats are</p>
-                <p>This is where the chats are</p>
-                <p>This is where the chats are</p>
-                <p>This is where the chats are</p>
+                {
+                    messages.map((msg) => {
+                        return(
+                            <p key={msg} > {msg}</p>
+                        )
+                    })
+                }
             </div>
             <div className="chat_input">
             <form onSubmit={logger}>
