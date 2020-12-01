@@ -1,10 +1,20 @@
-import React from 'react';
+import React, { useEffect } from 'react';
+import socket from '../socket/socket';
+
 
 const Chat = () => {
+
+    useEffect(() => {
+        socket.on('connect', (data) => {
+            console.log('You are connected to the web socket right now ')
+        })
+    })
+
     const logger = (event) => {
         event.preventDefault();
-        console.log("you just clicked the button hello how are you doing today")
+        socket.emit('message', {data: 'This is a message from the client'})
     }
+    
     return(
         <div className="chat_box">
             <div className="chat_header">
