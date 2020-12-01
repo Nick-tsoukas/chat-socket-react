@@ -1,8 +1,9 @@
-import React, { useEffect } from 'react';
+import React, { useEffect, useState } from 'react';
 import socket from '../socket/socket';
 
 
 const Chat = () => {
+    const [message, setMessage ] = useState('');
 
     useEffect(() => {
         socket.on('connect', (data) => {
@@ -12,7 +13,9 @@ const Chat = () => {
 
     const logger = (event) => {
         event.preventDefault();
-        socket.emit('message', {data: 'This is a message from the client'})
+        socket.emit('message', {data: message})
+        console.log(message)
+        setMessage('')
     }
     
     return(
@@ -29,7 +32,7 @@ const Chat = () => {
             </div>
             <div className="chat_input">
             <form onSubmit={logger}>
-                <input type="text" name="name" />
+                <input value={message} onChange={(e) => setMessage(e.target.value) } type="text"  />
                 <input type="submit" value="Submit" />
             </form>
             </div>
