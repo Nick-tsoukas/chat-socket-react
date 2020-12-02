@@ -14,7 +14,7 @@ const Chat = () => {
         socket.on('message', (data) => {
             setMessages([...messages, data.data]);
         });
-    },[]);
+    },[messages]);
 
     const logger = (event) => {
         event.preventDefault();
